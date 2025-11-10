@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp උපාංගය සම්බන්ධ කරන්න - දුරකථන අංකයෙන්</title>
+    <style>
+        /* මූලික CSS Style */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+        }
+        h1 {
+            color: #128C7E;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #54656f;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        .input-group {
+            margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #phoneInput {
+            width: 80%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            text-align: center;
+        }
+        #generateBtn {
+            background-color: #075E54;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        #generateBtn:hover {
+            background-color: #128C7E;
+        }
+        
+        /* කේතය පෙන්වන කොටස */
+        #codeArea {
+            margin-top: 30px;
+            display: none; /* මුලින්ම මෙය සඟවා තබමු */
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .code-display {
+            background-color: #d1e7dd;
+            border: 2px solid #075E54;
+            padding: 20px;
+            font-size: 32px;
+            font-weight: bold;
+            color: #075E54;
+            letter-spacing: 5px;
+            border-radius: 6px;
+        }
+        .instructions {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #777;
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📲 දුරකථන අංකයෙන් සම්බන්ධ කරන්න</h1>
+        <p>ඔබගේ WhatsApp දුරකථන අංකය ඇතුළත් කර කේතය ලබා ගන්න.</p>
+        
+        <div class="input-group">
+            <input type="text" id="phoneInput" placeholder="උදා: +94 71 XXX XXXX" required>
+            <button id="generateBtn">Generate Code</button>
+        </div>
+
+        <div id="codeArea">
+            <p>ඔබගේ දුරකථනයේ **Linked Devices** වෙත ගොස් **Link with Phone Number** තෝරා මෙම කේතය ඇතුළත් කරන්න:</p>
+            <div class="code-display" id="pairingCode">
+                </div>
+            <p class="instructions">මෙම කේතය වලංගු වන්නේ තාවකාලිකව පමණි.</p>
+        </div>
+    </div>
+    
+    <script>
+        const phoneInput = document.getElementById('phoneInput');
+        const generateBtn = document.getElementById('generateBtn');
+        const codeArea = document.getElementById('codeArea');
+        const pairingCodeDisplay = document.getElementById('pairingCode');
+
+        // තාවකාලික 8-ඉලක්කම් කේතයක් ජනනය කිරීමේ ශ්‍රිතය (Mock Function)
+        function generateMockCode() {
+            let code = '';
+            for (let i = 0; i < 8; i++) {
+                code += Math.floor(Math.random() * 10);
+                if (i === 3) code += ' - ';
+            }
+            return code.trim();
+        }
+
+        generateBtn.addEventListener('click', function() {
+            const phoneNumber = phoneInput.value.trim();
+            
+            if (phoneNumber.length < 9) {
+                alert("කරුණාකර නිවැරදි දුරකථන අංකයක් ඇතුළත් කරන්න.");
+                return;
+            }
+            
+            // 🛑 සැබෑ ක්‍රියාවලිය: 
+            // මෙහිදී ඔබගේ Python Backend එකට දුරකථන අංකය යැවිය යුතුය 
+            // (උදා: Fetch API භාවිතයෙන්)
+            // Backend එක මගින් WhatsApp සමඟ සන්නිවේදනය කර සැබෑ කේතය ලබා ගත යුතුය.
+
+            // 🟢 Mock ක්‍රියාවලිය (පෙනුම සඳහා):
+            // Frontend හි කේතයක් ජනනය කර පෙන්වීම.
+            pairingCodeDisplay.innerText = generateMockCode();
+            codeArea.style.display = 'block';
+            
+            // බොත්තම disable කිරීම 
+            generateBtn.disabled = true;
+            generateBtn.innerText = "කේතය ජනනය කළා";
+
+            // තත්පර 60 කට පසු නැවත සක්‍රිය කිරීම (සැබෑ සේවාවකදී මෙය Backend එක මගින් කළ යුතුය)
+            setTimeout(() => {
+                generateBtn.disabled = false;
+                generateBtn.innerText = "Generate Code";
+                // codeArea.style.display = 'none'; // අවශ්‍ය නම් කේතය සඟවන්න
+            }, 60000); 
+
+            console.log("Phone number submitted:", phoneNumber);
+        });
+    </script>
+</body>
+</html>
+
